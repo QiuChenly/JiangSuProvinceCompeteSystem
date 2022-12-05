@@ -1,9 +1,8 @@
 package com.compete.plugins
 
-import com.compete.common.UserService
 import com.compete.routing.baseRoute
+import com.compete.routing.newsRoute
 import com.compete.routing.userRoute
-import io.ktor.client.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
@@ -11,7 +10,6 @@ import io.ktor.server.plugins.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.koin.java.KoinJavaComponent.inject
 
 fun Application.configureRouting() {
     install(StatusPages) {
@@ -49,7 +47,7 @@ fun Application.configureRouting() {
 
     routing {
         trace {
-            application.log.trace(it.buildText())
+//            application.log.trace(it.buildText())
         }
 
         static("/") {
@@ -67,6 +65,7 @@ fun Application.configureRouting() {
 
         route("/prod-api") {
             userRoute()
+            newsRoute()
         }
     }
 }

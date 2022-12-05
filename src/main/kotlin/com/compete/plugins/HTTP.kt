@@ -12,6 +12,7 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.plugins.compression.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.partialcontent.*
+import io.ktor.server.response.*
 
 fun Application.configureHTTP() {
     install(Compression) {
@@ -42,17 +43,31 @@ fun Application.configureHTTP() {
         anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
     }
 
-    authentication {
-        jwt {
-            realm = "Access to 'hello'"
+    val realm = "Access to 'hello'"
+    install(Authentication) {
+        jwt("jwt-auth") {
+            this.realm = realm
             verifier(
-                JWT.require(Algorithm.HMAC256(jwtSecret))
+                JWT
+                    .require(Algorithm.HMAC256(jwtSecret))
                     .withAudience(jwtAudience)
                     .withIssuer(jwtIssuer)
                     .build()
             )
             validate { credential ->
-                if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
+                if (credential.payload.getClaim("username").asString() != "") {
+                    JWTPrincipal(credential.payload)
+                } else {
+                    null
+                }
+            }
+            challenge { defaultScheme, realm ->
+                call.respond(
+                    hashMapOf(
+                        "code" to "-1",
+                        "msg" to "Token is not valid or has expired"
+                    )
+                )
             }
         }
     }

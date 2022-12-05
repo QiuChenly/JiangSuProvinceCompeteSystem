@@ -1,5 +1,6 @@
 package com.compete.DataBase
 
+import com.compete.DataBase.Utils.BalanceList
 import com.compete.DataBase.Utils.Users
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -16,7 +17,8 @@ class SqliteServer : KoinComponent {
 //            addLogger(StdOutSqlLogger) //生成CURD日志 我不需要看 相信JetBrains
 
             SchemaUtils.createMissingTablesAndColumns(
-                Users
+                Users,
+                BalanceList,
             )
 
             val userSize = Users.selectAll().count()
