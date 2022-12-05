@@ -151,6 +151,7 @@ class UserService : KoinComponent {
                 it[event] = "余额充值"
                 it[changeAmount] = money
                 it[changeType] = "收入"
+                it[changeTime] = Date(System.currentTimeMillis()).time
             } get BalanceList.id
         }
         return BaseResponse(200, "操作成功。账单编号 $balanceId")

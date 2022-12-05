@@ -11,12 +11,15 @@ Content-Type: application/json
     client.global.set("auth_token", response.body['token']);
 %}
 
+### 获取图片
+GET {{host}}/2020-un-18.jpg
+
 ### 注册用户
 POST {{host}}/prod-api/api/register
 Content-Type: application/json
 
 {
-  "avatar": "/profile/2020/10/26/27e7fd58-0972-4dbf-941c-590624e6a886.png",
+  "avatar": "/2020-un-18.jpg",
   "userName": "David",
   "nickName": "大卫",
   "password": "123456",
@@ -79,7 +82,62 @@ Content-Type: application/json
 GET {{host}}/prod-api/api/common/feedback/list?title=
 Authorization: Bearer {{auth_token}}
 
+> {%
+    let obj = response.body["rows"]
+    client.global.set("id", obj.length > 0 ? obj[0]["id"] : obj["id"])
+%}
+
 ### 获取反馈意见详情
 GET {{host}}/prod-api/api/common/feedback/{{id}}
 Authorization: Bearer {{auth_token}}
+
+### 获取所有新闻类别
+GET {{host}}/prod-api/press/category/list
+
+> {%
+    client.global.set("test_id", response.body["rows"][0]["id"])
+%}
+
+### 获取对应类别的新闻
+GET {{host}}/prod-api/press/press/list?hot=&publishDate=&title=&top=&type={{test_id}}
+
+> {%
+    client.global.set("test_new_id", response.body["rows"][0]["id"])
+%}
+
+### 获取新闻详细信息
+GET {{host}}/prod-api/press/press/{{test_new_id}}
+
+### 发表新闻评论
+POST {{host}}/prod-api/press/pressComment
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "newsId": {{test_new_id}},
+  "content": "新闻评论测试"
+}
+
+### 获取新闻评论列表
+GET {{host}}/prod-api/press/comments/list?commentDate=&userId=&newsId={{test_new_id}}
+
+> {%
+    client.global.set("commentId", response.body["rows"][0]["id"])
+%}
+
+### 获取评论详细信息
+GET {{host}}/prod-api/press/comments/{{commentId}}
+
+### 点赞新闻
+PUT {{host}}/prod-api/press/press/like/{{test_new_id}}
+Authorization: Bearer {{auth_token}}
+
+### 点赞评论
+PUT {{host}}/prod-api/press/pressComment/like/{{commentId}}
+Authorization: Bearer {{auth_token}}
+
+###
+
+
+
 

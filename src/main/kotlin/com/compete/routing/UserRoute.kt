@@ -5,13 +5,14 @@ import com.compete.Type.ModifyRequest
 import com.compete.Type.PasswordModifyRequest
 import com.compete.Type.RegisterRequest
 import com.compete.common.UserService
+import com.compete.plugins.getQuery
+import com.compete.plugins.getUserName
 import io.ktor.client.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.util.pipeline.*
 import org.koin.java.KoinJavaComponent
 
 
@@ -31,11 +32,6 @@ fun Route.userRoute() {
         call.respond(userServ.addUser(it))
     }
 
-
-    fun PipelineContext<*, ApplicationCall>.getUserName(): String {
-        val principal = call.principal<JWTPrincipal>()
-        return principal!!.payload.getClaim("username").asString()
-    }
 
     authenticate("jwt-auth") {
         get("/hello") {
@@ -72,8 +68,8 @@ fun Route.userRoute() {
         }
 
         get("/api/common/balance/list") {
-            val pageNum = call.parameters["pageNum"]?.toInt() ?: 0
-            val pageSize = call.parameters["pageSize"]?.toInt() ?: 0
+            val pageNum = getQuery("pageNum")?.toInt() ?: 0
+            val pageSize = getQuery("pageSize")?.toInt() ?: 0
             call.respond(userServ.balanceList(getUserName()))
         }
     }

@@ -1,6 +1,8 @@
 package com.compete.Type
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
 
 @Serializable
 data class LoginRequest(
@@ -33,4 +35,20 @@ data class ModifyRequest(
 data class PasswordModifyRequest(
     val newPassword: String,
     val oldPassword: String
+)
+
+@Serializable
+data class FeedbackUploadRequest(
+    @SerialName("content")
+    val content: String, // 反馈内容
+    @SerialName("title")
+    val title: String // 发现错误
+)
+
+@Serializable
+data class CommentPublishRequest(
+    @SerialName("content")
+    val content: String, // 新闻评论测试
+    @SerialName("newsId")
+    val newsId: Int // 5
 )
