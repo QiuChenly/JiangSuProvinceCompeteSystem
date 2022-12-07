@@ -66,12 +66,9 @@ fun Application.configureRouting() {
         }
 
         static("/") {
+            defaultResource("/index.html", "static")
             resources("static")
             resources("video")
-        }
-
-        get("/") {
-            call.respondRedirect("/index.html")
         }
 
         route("/base") {
@@ -83,6 +80,7 @@ fun Application.configureRouting() {
             feedBack()
             newsRoute()
             bannerRoute()
+            fileUploadRoute()
         }
     }
 }

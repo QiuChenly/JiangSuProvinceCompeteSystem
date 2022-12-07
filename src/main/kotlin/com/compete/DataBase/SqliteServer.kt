@@ -22,10 +22,12 @@ class SqliteServer : KoinComponent {
                 NewsCategoryList,
                 NewsList,
                 NewsCommentList,
+                BannerList,
             )
 
             generateUserCollection()
             generateNewsCollection()
+            generateBannerList()
         }
         println("初始化数据库完成。")
     }
@@ -44,7 +46,7 @@ class SqliteServer : KoinComponent {
                     it[balance] = 10000
                     it[idCard] = "000000000000000000"
                     it[sex] = 0
-                    it[avatar] = "/2020-un-18.jpg"
+                    it[avatar] = "/010-h-1.jpg"
                 } get Users.userId
 
                 val user2Id = Users.insert {
@@ -57,7 +59,7 @@ class SqliteServer : KoinComponent {
                     it[balance] = 10000
                     it[idCard] = "000000000000000000"
                     it[sex] = 0
-                    it[avatar] = "/2020-un-18.jpg"
+                    it[avatar] = "/010-h-1.jpg"
                 } get Users.userId
 
                 val user3Id = Users.insert {
@@ -70,7 +72,7 @@ class SqliteServer : KoinComponent {
                     it[balance] = -200
                     it[idCard] = "000000000000000000"
                     it[sex] = 0
-                    it[avatar] = "/2020-un-18.jpg"
+                    it[avatar] = "/010-h-1.jpg"
                 } get Users.userId
 
                 println("$user1Id - $user2Id - $user3Id 插入初始化数据成功。")
@@ -92,14 +94,42 @@ class SqliteServer : KoinComponent {
 
                 for (j in 1..100) {
                     NewsList.insert {
-                        it[cover] = "/2020-un-18.jpg"
+                        it[cover] = "/010-h-1.jpg"
                         it[title] = "测试新闻${j}标题"
                         it[subTitle] = "测试新闻${j}子标题"
                         it[content] =
-                            "<p>内容<img src=\"/2020-un-18.jpg\"></p>"
+                            "<p>内容<img src=\"/010-h-1.jpg\"></p>"
                         it[type] = typeId//todo 此处存疑 不知道这个typeId是不是就是自动生成的id
                         it[publishDate] = DateFormatUtils.format(System.currentTimeMillis(), "yyyy-MM-dd")
                     }
+                }
+            }
+        }
+    }
+
+    private fun generateBannerList() {
+        val size = BannerList.selectAll().count()
+        if (size <= 0) {
+            for (i in 1..10) {
+                BannerList.insert {
+                    it[sort] = i
+                    it[advTitle] = "测试首页轮播$i"
+                    it[advImg] = "/010-h-${
+                        (i % 3).let { if (it == 0) 3 else it }
+                    }.jpg"
+                    it[servModule] = "新闻"
+                    it[targetId] = i
+                    it[type] = 2
+                }
+                BannerList.insert {
+                    it[sort] = i
+                    it[advTitle] = "测试引导页轮播$i"
+                    it[advImg] = "/010-${
+                        (i % 7).let { if (it == 0) 7 else it }
+                    }.jpg"
+                    it[servModule] = "引导页轮播"
+                    it[targetId] = i
+                    it[type] = 1
                 }
             }
         }

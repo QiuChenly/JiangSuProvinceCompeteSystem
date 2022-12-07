@@ -8,7 +8,6 @@ import io.ktor.server.websocket.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.Serializable
 import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent.inject
 import java.time.Duration
@@ -55,24 +54,22 @@ inline val WebSocketSession.ctServer: ChatServer
 
 suspend inline fun <T> WebSocketSession.sendJson(data: T) = outgoing.send(Frame.Text(Gson().toJson(data)))
 
-@Serializable
+
 open class BaseMsgBody {
     var code: Int = -1
 }
 
-@Serializable
+
 open class GenericBody<T> : BaseMsgBody() {
     var msg: T? = null
 }
 
-
-@Serializable
 data class BingImageList(
     val url: String,
     val title: String,
 )
 
-@Serializable
+
 data class BingImage(
     val images: List<BingImageList>,
 )

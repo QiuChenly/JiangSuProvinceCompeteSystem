@@ -2,19 +2,23 @@ package com.compete
 
 import com.compete.DataBase.SqliteServer
 import com.compete.common.CommonModule
-import com.compete.plugins.*
+import com.compete.plugins.chatServer
+import com.compete.plugins.configureHTTP
+import com.compete.plugins.configureRouting
+import com.compete.plugins.configureSockets
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import kotlinx.serialization.json.Json
+import io.ktor.server.plugins.contentnegotiation.*
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import org.koin.ktor.ext.inject
 import org.koin.logger.slf4jLogger
+import java.text.DateFormat
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as clientNegotiation
 
 fun main() {
     embeddedServer(
@@ -33,12 +37,11 @@ val httpClientModule = module {
 
     single {
         HttpClient(OkHttp) {
-            install(ContentNegotiation) {
-                json(Json {
-                    prettyPrint = true
-                    isLenient = true
-                    ignoreUnknownKeys = true //解析json的时候忽略掉未映射的值
-                })
+            install(clientNegotiation) {
+                gson {
+                    setPrettyPrinting()
+                    setDateFormat(DateFormat.LONG)
+                }
             }
         }
     }
@@ -57,8 +60,14 @@ fun Application.module() {
     sqliteServer.init()
 
 
+
+    install(ContentNegotiation) {
+        gson {
+            setDateFormat(DateFormat.LONG)
+            setPrettyPrinting()
+        }
+    }
     configureHTTP()
-    configureSerialization()
     configureSockets()
     configureRouting()
 }

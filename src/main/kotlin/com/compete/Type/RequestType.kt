@@ -1,16 +1,12 @@
 package com.compete.Type
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-
-@Serializable
 data class LoginRequest(
-    val username: String,
-    val password: String,
+    @SerializedName("username") val username: String,
+    @SerializedName("password") val password: String,
 )
 
-@Serializable
 data class RegisterRequest(
     val avatar: String, // /profile/2020/10/26/27e7fd58-0972-4dbf-941c-590624e6a886.png
     val email: String, // David@163.com
@@ -22,7 +18,6 @@ data class RegisterRequest(
     val userName: String // David
 )
 
-@Serializable
 data class ModifyRequest(
     val email: String, // lixl@163.com
     val idCard: String, // 210882199807251656
@@ -31,24 +26,21 @@ data class ModifyRequest(
     val sex: Int // 0
 )
 
-@Serializable
 data class PasswordModifyRequest(
     val newPassword: String,
     val oldPassword: String
 )
 
-@Serializable
 data class FeedbackUploadRequest(
-    @SerialName("content")
+    @SerializedName("content")
     val content: String, // 反馈内容
-    @SerialName("title")
+    @SerializedName("title")
     val title: String // 发现错误
 )
 
-@Serializable
 data class CommentPublishRequest(
-    @SerialName("content")
+    @SerializedName("content")
     val content: String, // 新闻评论测试
-    @SerialName("newsId")
+    @SerializedName("newsId")
     val newsId: Int // 5
 )

@@ -1,30 +1,28 @@
 package com.compete.Type
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
 
-@Serializable
 open class BaseResponse(
     var code: Int? = null,
     var msg: String? = null
 )
 
-@Serializable
+
 class ResponseImage : BaseResponse() {
     val image: String = ""
 }
 
-@Serializable
+
 class LoginResponse(
     var token: String? = null
 ) : BaseResponse()
 
-@Serializable
+
 class QueryUserInfoResponse(
     val user: User
 ) : BaseResponse() {
-    @Serializable
+
     data class User(
         val avatar: String,
         val balance: Int, // 9800
@@ -39,14 +37,14 @@ class QueryUserInfoResponse(
     )
 }
 
-@Serializable
+
 data class BalanceListResponse(
     val code: Int, // 200
     val msg: String, // 查询成功
     val rows: List<Row>,
     val total: Int // 10
 ) {
-    @Serializable
+
     data class Row(
         val appType: String, // null
         val changeAmount: Int, // 200
@@ -59,230 +57,260 @@ data class BalanceListResponse(
     )
 }
 
-@Serializable
+
 data class GetFeedbackListResponse(
-    @SerialName("code")
+    @SerializedName("code")
     val code: Int, // 200
-    @SerialName("msg")
+    @SerializedName("msg")
     val msg: String, // 查询成功
-    @SerialName("rows")
+    @SerializedName("rows")
     val rows: List<Row>,
-    @SerialName("total")
+    @SerializedName("total")
     val total: Int // 1
 ) {
-    @Serializable
+
     data class Row(
-        @SerialName("appType")
+        @SerializedName("appType")
         val appType: String, // movie
-        @SerialName("content")
+        @SerializedName("content")
         val content: String, // 反馈内容
-        @SerialName("id")
+        @SerializedName("id")
         val id: Int, // 4
-        @SerialName("title")
+        @SerializedName("title")
         val title: String, // 发现错误
-        @SerialName("userId")
+        @SerializedName("userId")
         val userId: Int // 1
     )
 }
 
-@Serializable
+
 data class GetFeedbackDetailsResponse(
-    @SerialName("code")
+    @SerializedName("code")
     val code: Int, //  200
-    @SerialName("data")
+    @SerializedName("data")
     val data: Data?,
-    @SerialName("msg")
+    @SerializedName("msg")
     val msg: String // 操作成功
 ) {
-    @Serializable
+
     data class Data(
-        @SerialName("appType")
+        @SerializedName("appType")
         val appType: String, // movie
-        @SerialName("content")
+        @SerializedName("content")
         val content: String, // 反馈内容
-        @SerialName("id")
+        @SerializedName("id")
         val id: Int, // 4
-        @SerialName("title")
+        @SerializedName("title")
         val title: String, // 发现错误
-        @SerialName("userId")
+        @SerializedName("userId")
         val userId: Int // 1
     )
 }
 
-@Serializable
+
 data class GetNewsCategoryResponse(
-    @SerialName("code")
+    @SerializedName("code")
     val code: Int, // 200
-    @SerialName("msg")
+    @SerializedName("msg")
     val msg: String, // 查询成功
-    @SerialName("rows")
+    @SerializedName("rows")
     val rows: List<Row>,
-    @SerialName("total")
+    @SerializedName("total")
     val total: Int // 1
 ) {
-    @Serializable
+
     data class Row(
-        @SerialName("appType")
+        @SerializedName("appType")
         val appType: String, // smart_city
-        @SerialName("id")
+        @SerializedName("id")
         val id: Int, // 9
-        @SerialName("name")
+        @SerializedName("name")
         val name: String, // 今日要闻
-        @SerialName("sort")
+        @SerializedName("sort")
         val sort: Int // 1
     )
 }
 
-@Serializable
+
 data class GetNewsListResponse(
-    @SerialName("code")
+    @SerializedName("code")
     val code: Int, // 200
-    @SerialName("msg")
+    @SerializedName("msg")
     val msg: String, // 查询成功
-    @SerialName("rows")
+    @SerializedName("rows")
     val rows: List<Row>,
-    @SerialName("total")
+    @SerializedName("total")
     val total: Long // 1
 ) {
-    @Serializable
+
     data class Row(
-        @SerialName("commentNum")
+        @SerializedName("commentNum")
         val commentNum: Int, // 1
-        @SerialName("content")
+        @SerializedName("content")
         val content: String, // <p>内容<img src="/dev-api/profile/upload/image/202 1/04/07/a9434ccf-5acf-4bf5-a06e-c3457c6762e9.png"></p>
-        @SerialName("cover")
+        @SerializedName("cover")
         val cover: String, // /dev-api/profile/upload/image/2021/04/01/c1eb74b2-e96 4-4388-830a-1b606fc9699f.png
-        @SerialName("hot")
+        @SerializedName("hot")
         val hot: String, // N
-        @SerialName("id")
+        @SerializedName("id")
         val id: Int, // 5
-        @SerialName("likeNum")
+        @SerializedName("likeNum")
         val likeNum: Int, // 2
-        @SerialName("publishDate")
+        @SerializedName("publishDate")
         val publishDate: String, // 2021-04-01
-        @SerialName("readNum")
+        @SerializedName("readNum")
         val readNum: Int, // 10
-        @SerialName("status")
+        @SerializedName("status")
         val status: String, // Y
-        @SerialName("subTitle")
+        @SerializedName("subTitle")
         val subTitle: String, // 测试新闻子标题
-        @SerialName("tags")
+        @SerializedName("tags")
         val tags: String = "", // null
-        @SerialName("title")
+        @SerializedName("title")
         val title: String, // 测试新闻标题
-        @SerialName("top")
+        @SerializedName("top")
         val top: String, // Y
-        @SerialName("type")
+        @SerializedName("type")
         val type: Int // 2
     )
 }
 
-@Serializable
+
 data class GetNewsDetailResponse(
-    @SerialName("code")
+    @SerializedName("code")
     val code: Int, // 200
-    @SerialName("data")
+    @SerializedName("data")
     val data: Data?,
-    @SerialName("msg")
+    @SerializedName("msg")
     val msg: String // 操作成功
 ) {
-    @Serializable
+
     data class Data(
-        @SerialName("appType")
+        @SerializedName("appType")
         val appType: String, // movie
-        @SerialName("commentNum")
+        @SerializedName("commentNum")
         val commentNum: Int, // null
-        @SerialName("content")
+        @SerializedName("content")
         val content: String, // <p>企鹅王请问<img src="/dev-api/profile/upload/image /2021/04/07/a9434ccf-5acf-4bf5-a06e-c3457c6762e9.png"></p>
-        @SerialName("cover")
+        @SerializedName("cover")
         val cover: String, // /dev-api/profile/upload/image/2021/04/01/c1eb74b2-e964- 4388-830a-1b606fc9699f.png
-        @SerialName("hot")
+        @SerializedName("hot")
         val hot: String, // N
-        @SerialName("id")
+        @SerializedName("id")
         val id: Int, // 5
-        @SerialName("likeNum")
+        @SerializedName("likeNum")
         val likeNum: Int, // 3
-        @SerialName("publishDate")
+        @SerializedName("publishDate")
         val publishDate: String, // 2021-04-01
-        @SerialName("readNum")
+        @SerializedName("readNum")
         val readNum: Int, // null
-        @SerialName("status")
+        @SerializedName("status")
         val status: String, // Y
-        @SerialName("subTitle")
+        @SerializedName("subTitle")
         val subTitle: String, // 123123123
-        @SerialName("tags")
+        @SerializedName("tags")
         val tags: String = "", // null
-        @SerialName("title")
+        @SerializedName("title")
         val title: String, // 驱蚊器无去
-        @SerialName("top")
+        @SerializedName("top")
         val top: String, // Y
-        @SerialName("type")
+        @SerializedName("type")
         val type: Int // 2
     )
 }
 
-@Serializable
+
 data class GetNewsCommentListResponse(
-    @SerialName("code")
+    @SerializedName("code")
     val code: Int, // 200
-    @SerialName("msg")
+    @SerializedName("msg")
     val msg: String, // 查询成功
-    @SerialName("rows")
+    @SerializedName("rows")
     val rows: List<Row>,
-    @SerialName("total")
+    @SerializedName("total")
     val total: Int // 1
 ) {
-    @Serializable
+
     data class Row(
-        @SerialName("appType")
+        @SerializedName("appType")
         val appType: String, // smart_city
-        @SerialName("commentDate")
+        @SerializedName("commentDate")
         val commentDate: String, // 2021-05-11 17:30:25
-        @SerialName("content")
+        @SerializedName("content")
         val content: String, // 支持
-        @SerialName("id")
+        @SerializedName("id")
         val id: Int, // 8
-        @SerialName("likeNum")
+        @SerializedName("likeNum")
         val likeNum: Int, // 0
-        @SerialName("newsId")
+        @SerializedName("newsId")
         val newsId: Int, // 28
-        @SerialName("newsTitle")
+        @SerializedName("newsTitle")
         val newsTitle: String, // iPhone 13 再爆猛料：不止刘海屏有望缩小，超大杯或 将搭载 LTPO 屏
-        @SerialName("userId")
+        @SerializedName("userId")
         val userId: Int, // 2
-        @SerialName("userName")
+        @SerializedName("userName")
         val userName: String // test01
     )
 }
 
-@Serializable
+
 data class GetCommentDetail(
-    @SerialName("code")
+    @SerializedName("code")
     val code: Int, // 200
-    @SerialName("data")
+    @SerializedName("data")
     val `data`: Data,
-    @SerialName("msg")
+    @SerializedName("msg")
     val msg: String // 操作成功
 ) {
-    @Serializable
+
     data class Data(
-        @SerialName("appType")
+        @SerializedName("appType")
         val appType: String, // living
-        @SerialName("commentDate")
+        @SerializedName("commentDate")
         val commentDate: String, // 2021-05-11 17:30:25
-        @SerialName("content")
+        @SerializedName("content")
         val content: String, // 支持
-        @SerialName("id")
+        @SerializedName("id")
         val id: Int, // 8
-        @SerialName("likeNum")
+        @SerializedName("likeNum")
         val likeNum: Int, // 0
-        @SerialName("newsId")
+        @SerializedName("newsId")
         val newsId: Int, // 28
-        @SerialName("newsTitle")
+        @SerializedName("newsTitle")
         val newsTitle: String, // 卓创资讯：猪价放量急跌 多地猪价破“10”
-        @SerialName("userId")
+        @SerializedName("userId")
         val userId: Int, // 2
-        @SerialName("userName")
+        @SerializedName("userName")
         val userName: String // test01
+    )
+}
+
+
+data class GetBannerResponse(
+    @SerializedName("code")
+    val code: Int, //  200
+    @SerializedName("msg")
+    val msg: String, // 查询成功
+    @SerializedName("rows")
+    val rows: List<Row>,
+    @SerializedName("total")
+    val total: Int // 1
+) {
+
+    data class Row(
+        @SerializedName("advImg")
+        val advImg: String, // http://152.136.210.130:7777/profile/upload/image/202 1/04/26/183e63c6-a59d-4551-a5b4-7055ff7a9575.jpg
+        @SerializedName("advTitle")
+        val advTitle: String, // 测试首页轮播
+        @SerializedName("id")
+        val id: Int, // 14
+        @SerializedName("servModule")
+        val servModule: String, // 新闻
+        @SerializedName("sort")
+        val sort: Int, // 1
+        @SerializedName("targetId")
+        val targetId: Int, // 1
+        @SerializedName("type")
+        val type: Int // 2
     )
 }

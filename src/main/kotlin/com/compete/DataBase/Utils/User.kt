@@ -127,3 +127,16 @@ object NewsCommentList : Table() {
     val newsTitle = varchar("newsTitle", Int.MAX_VALUE).default("")
     override val primaryKey = PrimaryKey(id, name = "newsCommentId")
 }
+
+
+object BannerList : Table() {
+    val id = integer("id").autoIncrement()
+    val sort = integer("sort").default(1)
+    val advTitle = varchar("advTitle", Int.MAX_VALUE).default("")
+    val advImg = varchar("advImg", Int.MAX_VALUE).default("")
+    val servModule = varchar("servModule", Int.MAX_VALUE).default("")
+    val targetId = integer("targetId").default(1)
+    val type = integer("type").default(1)
+
+    override val primaryKey = PrimaryKey(id, name = "bannerId")
+}

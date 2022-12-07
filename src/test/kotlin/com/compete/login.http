@@ -12,14 +12,14 @@ Content-Type: application/json
 %}
 
 ### 获取图片
-GET {{host}}/2020-un-18.jpg
+GET {{host}}/010-h-1.jpg
 
 ### 注册用户
 POST {{host}}/prod-api/api/register
 Content-Type: application/json
 
 {
-  "avatar": "/2020-un-18.jpg",
+  "avatar": "/010-h-1.jpg",
   "userName": "David",
   "nickName": "大卫",
   "password": "123456",
@@ -56,7 +56,7 @@ Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
-  "newPassword": "123789",
+  "newPassword": "123456",
   "oldPassword": "123456"
 }
 
@@ -136,8 +136,26 @@ Authorization: Bearer {{auth_token}}
 PUT {{host}}/prod-api/press/pressComment/like/{{commentId}}
 Authorization: Bearer {{auth_token}}
 
-###
+### 获取首页广告轮播 - 广告类型 1 引导页轮播 2 主页轮播
+GET {{host}}/prod-api/api/rotation/list?pageNum=1&pageSize=10&type=1
 
 
+### 文件上传
+POST {{host}}/prod-api/common/upload
+Authorization: Bearer {{auth_token}}
+Content-Type: multipart/form-data; boundary=WebAppBoundary
 
+--WebAppBoundary
+Content-Disposition: form-data; name="description"
+Content-Type: text/plain
 
+测试文件上传介绍
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="test.jpg"
+
+< /Users/qiuchenly/Downloads/古戸絵梨花/2020-un-19.jpg
+--WebAppBoundary--
+
+### 上传的文件读取 需要授权才可以读取
+GET {{host}}/prod-api/common/file/test1.jpg
+Authorization: Bearer {{auth_token}}
