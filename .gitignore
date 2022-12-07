@@ -5,6 +5,7 @@ build/
 !**/src/test/**/build/
 
 data.db
+uploads
 
 ### STS ###
 .apt_generated

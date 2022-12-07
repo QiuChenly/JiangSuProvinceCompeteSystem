@@ -9,9 +9,16 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import java.io.File
+import kotlin.io.path.Path
+import kotlin.io.path.createDirectory
+import kotlin.io.path.exists
 
 fun Route.fileUploadRoute() {
     authenticate("jwt-auth") {
+        val preLink = "uploads"
+        val document = Path(preLink)
+        if (!document.exists()) document.createDirectory() else println("Uploads 目录已经存在。")
+
         post("/common/upload") {
             var fileName = ""
             var fileDescription = ""
@@ -26,7 +33,9 @@ fun Route.fileUploadRoute() {
                     is PartData.FileItem -> {
                         fileName = it.originalFileName.toString()
                         val byte = it.streamProvider().readBytes()
-                        File("uploads/$fileName").writeBytes(byte)
+                        with(File("$preLink/$fileName")) {
+                            writeBytes(byte)
+                        }
                     }
 
                     else -> {
@@ -48,7 +57,7 @@ fun Route.fileUploadRoute() {
 
         get("/common/file/{fileName}") {
             val fileName = call.parameters["fileName"] ?: ""
-            val exists = File("uploads/$fileName")
+            val exists = File("$preLink/$fileName")
             val file = if (exists.exists()) exists else null
             if (file == null) call.respond(
                 BaseResponse(
