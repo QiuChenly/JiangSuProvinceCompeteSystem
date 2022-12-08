@@ -223,7 +223,7 @@ object BusStep:BaseTable(){
      * 站点 id
      */
     val stepsId = int("stepsId")
-    val name = str("name").default("xxxx街")
+    val name = str("name").default("xxxx街道")
     /**
      * 站点顺序
      */
