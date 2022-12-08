@@ -140,3 +140,39 @@ object BannerList : Table() {
 
     override val primaryKey = PrimaryKey(id, name = "bannerId")
 }
+
+// val advTitle = varchar("advTitle", Int.MAX_VALUE).default("")
+// val targetId = integer("targetId").default(0)
+
+object AppealCategory : Table() {
+    val id = integer("id").autoIncrement()
+    val searchValue = varchar("searchValue", Int.MAX_VALUE).default("")
+    val createBy = varchar("createBy", Int.MAX_VALUE).default("")
+    val createTime = varchar("createTime", Int.MAX_VALUE).default("")
+    val updateBy = varchar("updateBy", Int.MAX_VALUE).default("")
+    val updateTime = varchar("updateTime", Int.MAX_VALUE).default("")
+    val remark = varchar("remark", Int.MAX_VALUE).default("")
+    val name = varchar("name", Int.MAX_VALUE).default("")
+    val imgUrl = varchar("imgUrl", Int.MAX_VALUE).default("")
+    val sort = integer("sort").default(0)
+
+    override val primaryKey = PrimaryKey(id, name = "appealCategoryId")
+}
+
+object AppealList : Table() {
+    val id = integer("id").autoIncrement()
+    val userId = integer("userId") references Users.userId
+    val appealCategoryId = integer("appealCategoryId") references AppealCategory.id
+    val appealCategoryName = varchar("appealCategoryName", Int.MAX_VALUE).default("")
+    val title = varchar("title", Int.MAX_VALUE).default("")
+    val content = varchar("content", Int.MAX_VALUE).default("")
+    val undertaker = varchar("undertaker", Int.MAX_VALUE).default("")
+    val imgUrl = varchar("imgUrl", Int.MAX_VALUE).default("")
+    //TODO 可笑的是API文档里甚至没有这个字段的解释 笑嘻了 什么杀软文档 这b水平回家种地吧 别整nmb后台开发了 纯纯大水b一个 拉低行业平均水平
+    //gsh_appeal_state 你给我解释下这个系统字典在哪里 别说写在数据库里 你怎么不把nm写到数据库里然后用POST查找你吗？
+    val state = varchar("state", Int.MAX_VALUE).default("0")//自定义 0-未处理 1-已处理 2-处理中
+    val detailResult = varchar("detailResult", Int.MAX_VALUE).default("")
+    val createTime = long("createTime")
+
+    override val primaryKey = PrimaryKey(id, name = "appealListId")
+}

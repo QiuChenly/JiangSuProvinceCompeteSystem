@@ -44,3 +44,16 @@ data class CommentPublishRequest(
     @SerializedName("newsId")
     val newsId: Int // 5
 )
+
+data class UserUploadAppeal(
+    @SerializedName("appealCategoryId")
+    val appealCategoryId: Int,
+    @SerializedName("content")
+    val content: String, // 诉求内容诉求内容诉求内容诉求内容诉求内容
+    @SerializedName("imgUrl")
+    val imgUrl: String, // {{upload_img}}
+    @SerializedName("title")
+    val title: String, // 测试诉求 001
+    @SerializedName("undertaker")
+    val undertaker: String // 大连市政府
+)

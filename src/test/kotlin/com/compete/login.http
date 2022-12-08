@@ -156,6 +156,44 @@ Content-Disposition: form-data; name="file"; filename="test.jpg"
 < /Users/qiuchenly/Downloads/古戸絵梨花/2020-un-19.jpg
 --WebAppBoundary--
 
+> {%
+ client.global.set("upload_img",response.body["file"])
+ %}
 ### 上传的文件读取 需要授权才可以读取
-GET {{host}}/prod-api/common/file/test1.jpg
+GET {{host}}{{upload_img}}
 Authorization: Bearer {{auth_token}}
+
+### 市民诉求分类获取
+GET {{host}}/prod-api/api/gov-service-hotline/appeal-category/list?pageNum=1&pageSize=10
+
+> {%
+ client.global.set("appeal_type",response.body["rows"][0]["id"])
+ %}
+### 诉求轮播图
+GET {{host}}/prod-api/api/gov-service-hotline/ad-banner/list
+
+### 提交我的诉求
+POST {{host}}/prod-api/api/gov-service-hotline/appeal
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "appealCategoryId": {{appeal_type}},
+  "title": "测试诉求 001",
+  "content": "诉求内容诉求内容诉求内容诉求内容诉求内容",
+  "undertaker": "大连市政府",
+  "imgUrl": "{{upload_img}}"
+}
+
+### 获取我的所有诉求列表 方便警察上门精准扶贫
+GET {{host}}/prod-api/api/gov-service-hotline/appeal/my-list?pageNum=1&pageSize=10
+Authorization: Bearer {{auth_token}}
+
+> {%
+client.global.set("appeal_id", response.body["rows"][0]["id"])
+ %}
+### 获取诉求详情
+GET {{host}}/prod-api/api/gov-service-hotline/appeal/{{appeal_id}}
+
+### 获取某分类下的所有诉求
+GET {{host}}/prod-api/api/gov-service-hotline/appeal/list?appealCategoryId={{appeal_type}}&pageNum=1&pageSize=10

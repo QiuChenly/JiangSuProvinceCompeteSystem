@@ -29,37 +29,36 @@ repositories {
 
 val exposedVersion: String by project
 dependencies {
-    implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-cors-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-host-common-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-status-pages-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-compression-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-call-logging-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-metrics-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-metrics-micrometer-jvm:$ktor_version")
     implementation("io.micrometer:micrometer-registry-prometheus:$prometeus_version")
-    implementation("io.ktor:ktor-server-mustache-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
-    implementation("io.ktor:ktor-server-websockets-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("com.google.code.gson:gson:2.10")
-    implementation("io.ktor:ktor-server-auth-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:2.1.3")
-    implementation("io.ktor:ktor-serialization-gson-jvm:2.1.3")
+    implementation("io.ktor:ktor-server-core-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-cors-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-host-common-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-status-pages-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-compression-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-call-logging-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-metrics-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-metrics-micrometer-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-mustache-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-content-negotiation:2.2.1")
+    implementation("io.ktor:ktor-server-websockets-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-netty-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-auth-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-auth-jwt-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:2.2.1")
+    implementation("io.ktor:ktor-serialization-gson-jvm:2.2.1")
+    implementation("io.ktor:ktor-client-core-jvm:2.2.1")
+    implementation("io.ktor:ktor-client-okhttp-jvm:2.2.1")
+    implementation("io.ktor:ktor-client-content-negotiation:2.2.1")
+    implementation("io.ktor:ktor-serialization-gson:2.2.1")
+    implementation("io.ktor:ktor-server-partial-content-jvm:2.2.1")
 
-    testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
-    testImplementation("io.ktor:ktor-server-test-host:$ktor_version")
 
 
-    implementation("io.ktor:ktor-client-core:$ktor_version")
-    implementation("io.ktor:ktor-client-okhttp:$ktor_version")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
-    implementation("io.ktor:ktor-serialization-gson:$ktor_version")
 
     // Koin Core features
     implementation("io.insert-koin:koin-core:$koin_version")
@@ -67,11 +66,13 @@ dependencies {
     implementation("io.insert-koin:koin-ktor:$koin_version")
     // SLF4J Logger
     implementation("io.insert-koin:koin-logger-slf4j:$koin_version")
-    implementation("io.ktor:ktor-server-partial-content-jvm:$ktor_version")//
+    //
 
 //    implementation(fileTree("libs"))
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.xerial:sqlite-jdbc:3.40.0.0")
+    testImplementation("io.ktor:ktor-server-tests-jvm:2.2.1")
+    testImplementation("io.ktor:ktor-server-test-host-jvm:2.2.1")
 }

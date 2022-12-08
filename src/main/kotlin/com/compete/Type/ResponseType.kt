@@ -314,3 +314,106 @@ data class GetBannerResponse(
         val type: Int // 2
     )
 }
+
+data class GetAppealCategoryResponse(
+    @SerializedName("code")
+    val code: Int, // 200
+    @SerializedName("msg")
+    val msg: String, // 查询成功
+    @SerializedName("rows")
+    val rows: List<Row>,
+    @SerializedName("total")
+    val total: Int // 1
+) {
+    data class Row(
+        @SerializedName("createBy")
+        val createBy: String,
+        @SerializedName("createTime")
+        val createTime: String,
+        @SerializedName("id")
+        val id: Int, // 4
+        @SerializedName("imgUrl")
+        val imgUrl: String, // /dev-api/profile/upload/image/2022/02/24/aed84 b53-f416-4af1-be5e-e70a9ddb8027.png
+        @SerializedName("name")
+        val name: String, // 衣食住行
+        @SerializedName("params")
+        val params: Params = Params(),
+        @SerializedName("remark")
+        val remark: String,
+        @SerializedName("searchValue")
+        val searchValue: String,
+        @SerializedName("sort")
+        val sort: Int, // 1
+        @SerializedName("updateBy")
+        val updateBy: String,
+        @SerializedName("updateTime")
+        val updateTime: String
+    ) {
+        class Params
+    }
+}
+
+data class GetAppealSuggestionBannerResponse(
+    @SerializedName("code")
+    val code: Int, // 200
+    @SerializedName("data")
+    val `data`: List<Data>,
+    @SerializedName("msg")
+    val msg: String // 操作成功
+) {
+    data class Data(
+        @SerializedName("id")
+        val id: Int, // 4
+        @SerializedName("imgUrl")
+        val imgUrl: String, // /dev-api/profile/upload/image/2022/02/24/8d1e9174-7333-44c4-8d17-a64579c2677f.jpg
+        @SerializedName("sort")
+        val sort: Int, // 1
+        @SerializedName("title")
+        val title: String // 测试图片
+    )
+}
+
+data class GetAppealDetails(
+    @SerializedName("code")
+    val code: Int, // 200
+    @SerializedName("data")
+    val data: Data?,
+    @SerializedName("msg")
+    val msg: String // 操作成功
+) {
+    data class Data(
+        @SerializedName("appealCategoryId")
+        val appealCategoryId: Int, // 4
+        @SerializedName("appealCategoryName")
+        val appealCategoryName: String, // 衣食住行
+        @SerializedName("content")
+        val content: String, // 因为疫情，物价是在太高了，请处理一下。
+        @SerializedName("createTime")
+        val createTime: String, // 2022-02-24 15:38:50
+        @SerializedName("detailResult")
+        val detailResult: String, // 以让他们降价了
+        @SerializedName("id")
+        val id: Int, // 4
+        @SerializedName("imgUrl")
+        val imgUrl: String, // /dev-api/profile/upload/image/2022/02/24/82a57055- 3298-4b74-94e0-d2a222d3d19e.png
+        @SerializedName("state")
+        val state: String, // 1
+        @SerializedName("title")
+        val title: String, // 这是一个诉求
+        @SerializedName("undertaker")
+        val undertaker: String, // 物价局
+        @SerializedName("userId")
+        val userId: Int // 105
+    )
+}
+
+data class GetMyAppealList(
+    @SerializedName("code")
+    val code: Int, // 200
+    @SerializedName("rows")
+    val rows: List<GetAppealDetails.Data>,
+    @SerializedName("msg")
+    val msg: String, // 操作成功
+    @SerializedName("total")
+    val total:Int,
+)

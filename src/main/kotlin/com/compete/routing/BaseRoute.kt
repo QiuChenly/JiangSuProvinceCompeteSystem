@@ -3,6 +3,7 @@ package com.compete.routing
 import com.compete.Type.BaseResponse
 import com.compete.plugins.BingImage
 import io.ktor.client.call.*
+import io.ktor.client.call.body
 import io.ktor.client.request.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*

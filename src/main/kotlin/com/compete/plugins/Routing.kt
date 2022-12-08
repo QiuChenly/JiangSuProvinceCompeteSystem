@@ -81,6 +81,7 @@ fun Application.configureRouting() {
             newsRoute()
             bannerRoute()
             fileUploadRoute()
+            appealRoute()
         }
     }
 }

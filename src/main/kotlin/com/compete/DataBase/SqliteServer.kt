@@ -23,11 +23,14 @@ class SqliteServer : KoinComponent {
                 NewsList,
                 NewsCommentList,
                 BannerList,
+                AppealCategory,
+                AppealList
             )
 
             generateUserCollection()
             generateNewsCollection()
             generateBannerList()
+            generateAppealCategory()
         }
         println("初始化数据库完成。")
     }
@@ -123,6 +126,16 @@ class SqliteServer : KoinComponent {
                 }
                 BannerList.insert {
                     it[sort] = i
+                    it[advTitle] = "测试诉求轮播$i"
+                    it[advImg] = "/010-h-${
+                        (i % 3).let { if (it == 0) 3 else it }
+                    }.jpg"
+                    it[servModule] = "诉求"
+                    it[targetId] = i
+                    it[type] = 3
+                }
+                BannerList.insert {
+                    it[sort] = i
                     it[advTitle] = "测试引导页轮播$i"
                     it[advImg] = "/010-${
                         (i % 7).let { if (it == 0) 7 else it }
@@ -131,6 +144,30 @@ class SqliteServer : KoinComponent {
                     it[targetId] = i
                     it[type] = 1
                 }
+            }
+        }
+    }
+
+    private fun generateAppealCategory() {
+        val size = AppealCategory.selectAll().count()
+        if (size <= 0) {
+            for (i in 1..8) {
+                val img = "/010-Rect-${
+                    (i % 3).let {
+                        if (it == 0) 3 else it
+                    }
+                }.jpg"
+                AppealCategory.insert {
+                    it[searchValue] = ""
+                    it[createBy] = ""
+                    it[createTime] = ""
+                    it[updateBy] = ""
+                    it[updateTime] = ""
+                    it[remark] = ""
+                    it[name] = "诉求类别$i"
+                    it[imgUrl] = img
+                    it[sort] = i
+                } get AppealCategory.id
             }
         }
     }
