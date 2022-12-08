@@ -415,5 +415,110 @@ data class GetMyAppealList(
     @SerializedName("msg")
     val msg: String, // 操作成功
     @SerializedName("total")
-    val total:Int,
+    val total: Int,
+)
+
+data class BusOrderResponse(
+    @SerializedName("code")
+    val code: Int, // 200
+    @SerializedName("msg")
+    val msg: String, // 操作成功
+    @SerializedName("orderNum")
+    val orderNum: String // 52042107
+)
+
+data class GetOrderListResponse(
+    @SerializedName("code")
+    val code: Int, // 200
+    @SerializedName("msg")
+    val msg: String, // 查询成功
+    @SerializedName("rows")
+    val rows: List<Row>,
+    @SerializedName("total")
+    val total: Int // 9
+) {
+    data class Row(
+        @SerializedName("end")
+        val end: String, // 大连北站
+        @SerializedName("id")
+        val id: Int, // 1
+        @SerializedName("orderNum")
+        val orderNum: String, // 60353861
+        @SerializedName("path")
+        val path: String, // 一号线
+        @SerializedName("payTime")
+        val payTime: String, // 2021-05-14 16:04:27
+        @SerializedName("paymentType")
+        val paymentType: String, // 电子支付
+        @SerializedName("price")
+        val price: Int, // 8
+        @SerializedName("start")
+        val start: String, // 泰德大厦
+        @SerializedName("status")
+        val status: Int, // 0
+        @SerializedName("userId")
+        val userId: Int, // 2
+        @SerializedName("userName")
+        val userName: String, // 张三
+        @SerializedName("userTel")
+        val userTel: String // 12345611
+    )
+}
+
+data class GetBusStepsResponse(
+    @SerializedName("code")
+    val code: Int, // 200
+    @SerializedName("msg")
+    val msg: String, // 查询成功
+    @SerializedName("rows")
+    val rows: List<Row>,
+    @SerializedName("total")
+    val total: Int // 4
+) {
+    data class Row(
+        @SerializedName("linesId")
+        val linesId: Int, // 1
+        @SerializedName("name")
+        val name: String, // 光谷金融街
+        @SerializedName("sequence")
+        val sequence: Int, // 1
+        @SerializedName("stepsId")
+        val stepsId: Int // 1
+    )
+}
+
+data class GetLinesListResponse(
+    @SerializedName("code")
+    val code: Int, // 200
+    @SerializedName("msg")
+    val msg: String, // 查询成功
+    @SerializedName("rows")
+    val rows: List<Row>,
+    @SerializedName("total")
+    val total: Int // 4
+) {
+    data class Row(
+        @SerializedName("end")
+        val end: String, // 南湖大厦
+        @SerializedName("endTime")
+        val endTime: String, // 19:45
+        @SerializedName("first")
+        val first: String, // 光谷金融街
+        @SerializedName("id")
+        val id: Int, // 1
+        @SerializedName("mileage")
+        val mileage: String, // 20
+        @SerializedName("name")
+        val name: String, // 一号线
+        @SerializedName("price")
+        val price: Int, // 8
+        @SerializedName("startTime")
+        val startTime: String // 6:30
+    )
+}
+
+data class GetLinesDetail(
+    val code: Int,
+    val msg: String,
+    val data: GetLinesListResponse.Row
 )

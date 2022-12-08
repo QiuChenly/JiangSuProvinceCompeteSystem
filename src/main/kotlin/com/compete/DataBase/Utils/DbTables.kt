@@ -6,10 +6,6 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.sqlite.date.DateFormatUtils
 
-enum class UserPermission {
-    ADMIN, USER, TEMP
-}
-
 object Users : Table() {
     val userId = integer("userId").autoIncrement()
     val userName = varchar("userName", Int.MAX_VALUE).uniqueIndex("userName")
@@ -29,18 +25,14 @@ object Users : Table() {
     fun findUser(userName: String) = transaction { Users.select { Users.userName eq userName } }
 }
 
-object BalanceList : Table() {
-    val id = integer("id").autoIncrement()
-    val appType = varchar("appType", Int.MAX_VALUE).default("")
-    val userId = integer("userId") references Users.userId
-    val event = varchar("event", Int.MAX_VALUE).default("缴纳违章罚款")
-    val changeAmount = integer("changeAmount").default(0)
-    val changeType = varchar("changeType", Int.MAX_VALUE).default("支出")
-    val userName = varchar("userName", Int.MAX_VALUE).default("")
+object BalanceList : BaseTable() {
+    val appType = str("appType")
+    val userId = int("userId") references Users.userId
+    val event = str("event").default("缴纳违章罚款")
+    val changeAmount = int("changeAmount").default(0)
+    val changeType = str("changeType").default("支出")
+    val userName = str("userName")
     val changeTime = long("changeTime")
-
-    override val primaryKey = PrimaryKey(id, name = "balanceId")
-
 
     fun getListByUserId(userId: Int): List<BalanceListResponse.Row> {
         return transaction {
@@ -62,23 +54,17 @@ object BalanceList : Table() {
     }
 }
 
-object FeedbackList : Table() {
-    val id = integer("id").autoIncrement()
-    val appType = varchar("appType", Int.MAX_VALUE).default("movie")
-    val title = varchar("title", Int.MAX_VALUE).default("")
-    val content = varchar("content", Int.MAX_VALUE).default("")
-    val userId = integer("userId") references Users.userId
-
-    override val primaryKey = PrimaryKey(id, name = "feedbackId")
+object FeedbackList : BaseTable("feedbackId") {
+    val appType = str("appType").default("movie")
+    val title = str("title")
+    val content = str("content")
+    val userId = int("userId") references Users.userId
 }
 
-object NewsCategoryList : Table() {
-    val id = integer("id").autoIncrement()
-    val appType = varchar("appType", Int.MAX_VALUE).default("smart_city")
-    val name = varchar("name", Int.MAX_VALUE).default("")
-    val sort = integer("sort").default(1)
-
-    override val primaryKey = PrimaryKey(id, name = "newsCategoryId")
+object NewsCategoryList : BaseTable("newsCategoryId") {
+    val appType = str("appType").default("smart_city")
+    val name = str("name")
+    val sort = int("sort").default(1)
 }
 
 object NewsList : Table() {
@@ -168,6 +154,7 @@ object AppealList : Table() {
     val content = varchar("content", Int.MAX_VALUE).default("")
     val undertaker = varchar("undertaker", Int.MAX_VALUE).default("")
     val imgUrl = varchar("imgUrl", Int.MAX_VALUE).default("")
+
     //TODO 可笑的是API文档里甚至没有这个字段的解释 笑嘻了 什么杀软文档 这b水平回家种地吧 别整nmb后台开发了 纯纯大水b一个 拉低行业平均水平
     //gsh_appeal_state 你给我解释下这个系统字典在哪里 别说写在数据库里 你怎么不把nm写到数据库里然后用POST查找你吗？
     val state = varchar("state", Int.MAX_VALUE).default("0")//自定义 0-未处理 1-已处理 2-处理中
@@ -175,4 +162,70 @@ object AppealList : Table() {
     val createTime = long("createTime")
 
     override val primaryKey = PrimaryKey(id, name = "appealListId")
+}
+
+open class BaseTable(val pKey: String? = null) : Table() {
+    val id = integer("id").autoIncrement()
+    override val primaryKey = PrimaryKey(id, name = pKey)
+
+    /**
+     * 字符类型
+     */
+    fun str(nameId: String, default: String = "") = varchar(nameId, Int.MAX_VALUE).default(default)
+
+    /**
+     * int 类型
+     */
+    fun int(nameId: String, default: Int = 0) = integer(nameId).default(default)
+}
+
+object BusOrder : BaseTable() {
+    val orderNum = str("orderNum")
+    val path = str("path")
+    val start = str("start")
+    val end = str("end")
+    val price = int("price")
+    val userName = str("userName")
+    val userTel = str("userTel")
+    val userId = int("userId")
+
+    /**
+     * 未支付0 已支付1
+     */
+    val status = int("status")
+    val paymentType = str("paymentType").default("电子支付")
+    val payTime = str("payTime")
+}
+
+object BusLine:BaseTable(){
+    /**
+     * 路线名称
+     */
+    val name = str("name")
+    val first = str("first")
+    val end = str("end")
+    val startTime = str("startTime")
+    val endTime = str("endTime")
+    val price = int("price")
+
+    /**
+     * 里程
+     */
+    val mileage = str("mileage")
+}
+
+object BusStep:BaseTable(){
+    /**
+     * 路线 id
+     */
+    val linesId = int("linesId") references BusLine.id
+    /**
+     * 站点 id
+     */
+    val stepsId = int("stepsId")
+    val name = str("name").default("xxxx街")
+    /**
+     * 站点顺序
+     */
+    val sequence = int("sequence")
 }

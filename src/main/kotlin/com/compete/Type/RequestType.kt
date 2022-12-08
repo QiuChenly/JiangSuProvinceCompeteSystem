@@ -57,3 +57,21 @@ data class UserUploadAppeal(
     @SerializedName("undertaker")
     val undertaker: String // 大连市政府
 )
+
+data class BusOrderRequest(
+    @SerializedName("end")
+    val end: String, // 大连北站
+    @SerializedName("path")
+    val path: String, // 一号线
+    @SerializedName("price")
+    val price: Int, // 8
+    @SerializedName("start")
+    val start: String, // 泰德大厦
+    @SerializedName("status")
+    val status: Int // 1
+)
+
+data class BusPay(
+    val orderNum: String,
+    val paymentType: String,
+)

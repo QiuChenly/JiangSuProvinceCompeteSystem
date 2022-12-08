@@ -66,7 +66,7 @@ class UserService : KoinComponent {
                 it[password] = user.password
                 it[nickName] = user.nickName
                 it[email] = user.email
-                it[phonenumber] = user.userName
+                it[phonenumber] = user.phonenumber
                 it[score] = 0
                 it[balance] = 0
                 it[idCard] = user.idCard
@@ -137,24 +137,40 @@ class UserService : KoinComponent {
         return BaseResponse(code = 200, msg = "修改成功。")
     }
 
-    fun rechargeBalance(userName: String, money: Int): BaseResponse {
+    fun rechargeBalance(
+        userName: String,
+        money: Int,
+        mEvent: String = "余额充值",
+        mChangeType: String = "收入"
+    ): BaseResponse {
         val user = transaction { Users.findUser(userName).single() }
         val currentBalance = user[Users.balance]
         val balanceId = transaction {
+
+            //check user amount for pay price
+            if (money < 0) {
+                if ((currentBalance <= 0) or (currentBalance < money * -1)) {
+                    return@transaction null
+                }
+            }
+
             Users.update({
                 Users.userName eq userName
             }) {
                 it[balance] = currentBalance + money
             }
             BalanceList.insert {
+                it[BalanceList.userName] = user[Users.userName]
                 it[userId] = user[Users.userId]
-                it[event] = "余额充值"
+                it[appType] = "balanceList"
+                it[event] = mEvent
                 it[changeAmount] = money
-                it[changeType] = "收入"
+                it[changeType] = mChangeType
                 it[changeTime] = Date(System.currentTimeMillis()).time
             } get BalanceList.id
         }
-        return BaseResponse(200, "操作成功。账单编号 $balanceId")
+        return if (balanceId == null) BaseResponse(201, "余额不足请充值")
+        else BaseResponse(200, "操作成功。账单编号 $balanceId")
     }
 
     fun balanceList(userName: String): BalanceListResponse {

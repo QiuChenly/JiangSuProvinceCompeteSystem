@@ -2,7 +2,6 @@ package com.compete.plugins
 
 import com.compete.DataBase.Utils.Users
 import com.compete.routing.*
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
@@ -26,13 +25,6 @@ fun PipelineContext<*, ApplicationCall>.getQuery(key: String) = call.request.que
 
 fun Application.configureRouting() {
     install(StatusPages) {
-        exception<AuthenticationException> { call, cause ->
-            call.respond(HttpStatusCode.Unauthorized)
-        }
-        exception<AuthorizationException> { call, cause ->
-            call.respond(HttpStatusCode.Forbidden)
-        }
-
         exception<Throwable> { call, cause ->
             cause.printStackTrace()
             when (cause) {
@@ -60,7 +52,6 @@ fun Application.configureRouting() {
 
     routing {
 
-
         trace {
 //            application.log.trace(it.buildText())
         }
@@ -82,10 +73,7 @@ fun Application.configureRouting() {
             bannerRoute()
             fileUploadRoute()
             appealRoute()
+            smartBusRoute()
         }
     }
 }
-
-class AuthenticationException : RuntimeException()
-
-class AuthorizationException : RuntimeException()

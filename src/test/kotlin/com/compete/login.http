@@ -65,7 +65,7 @@ GET {{host}}/prod-api/api/common/balance/list?pageNum=1&pageSize=8
 Authorization: Bearer {{auth_token}}
 
 ### 充值余额
-POST {{host}}/prod-api/api/common/balance/recharge?money=1000
+POST {{host}}/prod-api/api/common/balance/recharge?money=1
 Authorization: Bearer {{auth_token}}
 
 ### 社区反馈意见
@@ -157,8 +157,9 @@ Content-Disposition: form-data; name="file"; filename="test.jpg"
 --WebAppBoundary--
 
 > {%
- client.global.set("upload_img",response.body["file"])
- %}
+    client.global.set("upload_img", response.body["file"])
+%}
+
 ### 上传的文件读取 需要授权才可以读取
 GET {{host}}{{upload_img}}
 Authorization: Bearer {{auth_token}}
@@ -167,8 +168,9 @@ Authorization: Bearer {{auth_token}}
 GET {{host}}/prod-api/api/gov-service-hotline/appeal-category/list?pageNum=1&pageSize=10
 
 > {%
- client.global.set("appeal_type",response.body["rows"][0]["id"])
- %}
+    client.global.set("appeal_type", response.body["rows"][0]["id"])
+%}
+
 ### 诉求轮播图
 GET {{host}}/prod-api/api/gov-service-hotline/ad-banner/list
 
@@ -190,10 +192,79 @@ GET {{host}}/prod-api/api/gov-service-hotline/appeal/my-list?pageNum=1&pageSize=
 Authorization: Bearer {{auth_token}}
 
 > {%
-client.global.set("appeal_id", response.body["rows"][0]["id"])
- %}
+    client.global.set("appeal_id", response.body["rows"][0]["id"])
+%}
+
 ### 获取诉求详情
 GET {{host}}/prod-api/api/gov-service-hotline/appeal/{{appeal_id}}
 
 ### 获取某分类下的所有诉求
 GET {{host}}/prod-api/api/gov-service-hotline/appeal/list?appealCategoryId={{appeal_type}}&pageNum=1&pageSize=10
+
+### 查询站点信息
+GET {{host}}/prod-api/api/bus/stop/list?linesId=1&pageNum=1&pageSize=8
+
+### 查询路线信息
+GET {{host}}/prod-api/api/bus/line/list?pageNum=1&pageSize=8
+
+> {%
+ client.global.set("line_detail",response.body["rows"][0]['id'])
+ %}
+### 查询路线详情
+GET {{host}}/prod-api/api/bus/line/{{line_detail}}
+
+### 新增巴士订单
+POST {{host}}/prod-api/api/bus/order
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "start": "泰德大厦",
+  "end": "大连北站",
+  "price": "8",
+  "path": "一号线",
+  "status": 1
+}
+
+> {%
+    client.global.set("orderNum", response.body["orderNum"])
+%}
+
+### 查询订单列表
+GET {{host}}/prod-api/api/bus/order/list?pageNum=1&pageSize=8
+Authorization: Bearer {{auth_token}}
+
+### 支付巴士订单
+POST {{host}}/prod-api/api/bus/pay
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "orderNum": "{{orderNum}}",
+  "paymentType": "电子支付"
+}
+
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+
+
+
+
+
+
