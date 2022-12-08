@@ -6,6 +6,7 @@ build/
 
 data.db
 uploads
+.DS_Store
 
 ### STS ###
 .apt_generated
@@ -28,6 +29,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -37,6 +39,5 @@ out/
 
 ### VS Code ###
 .vscode/
-
-
 *.log
+
