@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "com.competeSystem"
-version = "0.0.3"
+version = "0.0.3.1"
 application {
     mainClass.set("com.compete.ApplicationKt")
 

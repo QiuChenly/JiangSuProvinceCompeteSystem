@@ -50,6 +50,7 @@ fun Route.newsRoute() {
         val lst = transaction {
             val db = NewsList.select {
                 if (type.isNotEmpty()) NewsList.type eq type.toInt() else Op.TRUE
+                if (!title.isNullOrEmpty()) NewsList.title like "%$title%" else Op.TRUE
             }
             allSize = db.count()
             db.limit(

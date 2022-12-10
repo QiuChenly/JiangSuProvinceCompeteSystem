@@ -105,6 +105,13 @@ GET {{host}}/prod-api/press/press/list?hot=&publishDate=&title=&top=&type={{test
     client.global.set("test_new_id", response.body["rows"][0]["id"])
 %}
 
+### 根据标题搜索新闻
+GET {{host}}/prod-api/press/press/list?hot=&publishDate=&title=100标题&top=&type=
+
+
+
+
+
 ### 获取新闻详细信息
 GET {{host}}/prod-api/press/press/{{test_new_id}}
 
@@ -137,7 +144,7 @@ PUT {{host}}/prod-api/press/pressComment/like/{{commentId}}
 Authorization: Bearer {{auth_token}}
 
 ### 获取首页广告轮播 - 广告类型 1 引导页轮播 2 主页轮播
-GET {{host}}/prod-api/api/rotation/list?pageNum=1&pageSize=10&type=1
+GET {{host}}/prod-api/api/rotation/list?pageNum=1&pageSize=5&type=1
 
 
 ### 文件上传
@@ -208,8 +215,9 @@ GET {{host}}/prod-api/api/bus/stop/list?linesId=1&pageNum=1&pageSize=8
 GET {{host}}/prod-api/api/bus/line/list?pageNum=1&pageSize=8
 
 > {%
- client.global.set("line_detail",response.body["rows"][0]['id'])
- %}
+    client.global.set("line_detail", response.body["rows"][0]['id'])
+%}
+
 ### 查询路线详情
 GET {{host}}/prod-api/api/bus/line/{{line_detail}}
 
